@@ -1,0 +1,10 @@
+export const CORRECT = 'correct';
+export const INCORRECT = 'incorrect';
+export const ALL_DECKS = 'ALL_DECKS';
+export const NOTIFICATION_KEY = 'MOBILEFLASHCARDS:NOTIFICATION';
+export const ADD_CARD = 'ADD_CARD';
+export const ADD_DECK = 'ADD_DECK';
+export const RECEIVE_DECKS = 'RECEIVE_DECKS';
+export const RECEIVE_DECK_DETAIL = 'RECEIVE_DECK_DETAIL';
+export const IS_LOADING = 'IS_LOADING';
+export const CLEAR_ALL = 'CLEAR_ALL';
