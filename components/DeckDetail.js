@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Animated } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { retrieveDeckDetail } from '../actions';
 import get from 'lodash.get';
@@ -7,9 +7,20 @@ import { connect } from 'react-redux';
 import componentStyles from '../style/components';
 
 class DeckDetail extends Component {
+
+    state = {
+        springAnimationState: new Animated.Value(1)
+    }
+
     componentDidMount(){
         const deckId = get(this.props, 'navigation.state.params.deckId');
         this.props.dispatch(retrieveDeckDetail(deckId));
+        
+        Animated.sequence([
+            Animated.timing(this.state.springAnimationState, {duration:800, toValue:2}),
+            Animated.spring(this.state.springAnimationState, {toValue:1, friction:2})
+        ]).start()
+        
     }
 
     render() {
@@ -17,7 +28,8 @@ class DeckDetail extends Component {
         const { state, navigate } = this.props.navigation;
         const numOfQuestions = deck.questions ? deck.questions.length : 0;
         const { isFetching } = this.props.loadingStatus;
-        
+        let {springAnimationState} = this.state;
+
         if (isFetching) {
             return ( 
                 <ActivityIndicator 
@@ -32,8 +44,8 @@ class DeckDetail extends Component {
             <View style={styles.container}>
                 <View style={styles.deckContainer}>
                     <MaterialCommunityIcons name="cards-outline" size={100} />
-                    <Text style={styles.title}>{deck.title}</Text>
-                    <Text style={styles.subtitle}>{numOfQuestions} card(s)</Text>
+                    <Animated.Text style={styles.title, {transform:[{ scale: springAnimationState }]}}>{deck.title}</Animated.Text>
+                    <Animated.Text style={styles.subtitle, {transform:[{ scale: springAnimationState }]}}>{numOfQuestions} card(s)</Animated.Text>
                 </View>
                 <TouchableOpacity style={[styles.button, styles.addButton]}>
                     <Text style={styles.addText} onPress={() => navigate('AddCard', {deckTitle: deck.title})}>Add Card</Text>

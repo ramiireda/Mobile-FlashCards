@@ -13,7 +13,11 @@ class DeckList extends Component {
 
     componentDidMount() {
         this.props.dispatch(retrieveDecks());
+        this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.props.dispatch(retrieveDecks());
+        });
     }
+
 
     componentWillReceiveProps(newProps) {
         if(get(newProps, 'navigation.state.params.shouldRefresh')) {
@@ -48,7 +52,7 @@ class DeckList extends Component {
                 <FlatList
                     style={{'marginBottom': 20}}
                     data={Object.keys(decks)}
-                    keyExtractor={(data,index) => index}
+                    keyExtractor={(data,index) => data}
                     renderItem={(data) => 
                         <Deck 
                             deck={decks[data.item]} 

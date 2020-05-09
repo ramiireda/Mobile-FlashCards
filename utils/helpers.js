@@ -1,6 +1,7 @@
 import { fetchAllDecks, setData, addDeck, addCard, flush, getDeck } from './api';
 import { AsyncStorage } from 'react-native';
-import { Notifications, Permissions } from 'expo';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions'
 import { NOTIFICATION_KEY } from './constants';
 
 export function getDummyData() {
